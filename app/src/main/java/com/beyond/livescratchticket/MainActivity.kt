@@ -42,6 +42,7 @@ class MainActivity : ComponentActivity() {
                         ) {
                             val index = it.arguments?.getInt("index")
                             val arguments = it.arguments?.getString("item")
+                            Log.i(TAG, "index = $index arguments = $arguments")
                             addDetail(index ?: 0, arguments ?: "")
                         }
                     }
