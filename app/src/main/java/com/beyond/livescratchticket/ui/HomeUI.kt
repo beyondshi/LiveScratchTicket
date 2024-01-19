@@ -15,9 +15,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.beyond.livescratchticket.FamilyTask
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 @Composable
-fun addHome(navController: NavController, tasks: List<String>) {
+fun addHome(navController: NavController, tasks: ArrayList<FamilyTask>) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(
             modifier = Modifier
@@ -35,9 +38,10 @@ fun addHome(navController: NavController, tasks: List<String>) {
                     modifier = Modifier
                         .padding(16.dp)
                         .clickable {
-                            navController.navigate("detail/$index/$item")
+                            val data = Json.encodeToString(item)
+                            navController.navigate("detail/$index/$data")
                         },
-                    text = "${index + 1}: $item"
+                    text = "${index + 1}: ${item.name}"
                 )
             }
         }

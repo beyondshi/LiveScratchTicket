@@ -15,6 +15,7 @@ import androidx.navigation.navArgument
 import com.beyond.livescratchticket.ui.addDetail
 import com.beyond.livescratchticket.ui.addHome
 import com.beyond.livescratchticket.ui.theme.LiveScratchTicketTheme
+import kotlinx.serialization.json.Json
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,18 +33,19 @@ class MainActivity : ComponentActivity() {
                         composable(
                             "home"
                         ) {
-                            addHome(navController, arrayListOf("洗碗", "拖地"))
+                            addHome(navController, taskList)
                         }
                         composable(
-                            route = "detail/{index}/{item}",
+                            route = "detail/{index}/{data}",
                             arguments = listOf(
                                 navArgument("index") { type = NavType.IntType },
-                                navArgument("item") { type = NavType.StringType })
+                                navArgument("data") { type = NavType.StringType })
                         ) {
                             val index = it.arguments?.getInt("index")
-                            val arguments = it.arguments?.getString("item")
-                            Log.i(TAG, "index = $index arguments = $arguments")
-                            addDetail(index ?: 0, arguments ?: "")
+                            val data = it.arguments?.getString("data") ?: ""
+                            val task: FamilyTask = Json.decodeFromString(data)
+                            Log.i(TAG, "index = $index arguments = $task")
+                            addDetail(index ?: 0, task)
                         }
                     }
                 }

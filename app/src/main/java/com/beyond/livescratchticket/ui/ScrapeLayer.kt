@@ -35,32 +35,21 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.beyond.livescratchticket.R
+import com.beyond.livescratchticket.FamilyTask
 import com.beyond.livescratchticket.TAG
 import kotlin.random.Random
 
 private val roles = arrayOf("老婆", "老公")
 
 @Composable
-fun addDetail(index: Int, arguments: String) {
+fun addDetail(index: Int, arguments: FamilyTask) {
     var linePath by remember { mutableStateOf(Offset.Zero) }
     val path by remember { mutableStateOf(Path()) }
     var random by remember { mutableStateOf(Random.nextInt(2)) }
     val result = roles[random]
-    val res = when (index) {
-        // 洗碗
-        0 -> if (random == 0) {
-            R.mipmap.dishwasher_woman
-        } else {
-            R.mipmap.dishwasher_man
-        }
-        // 拖地
-        1 -> if (random == 0) {
-            R.mipmap.mop_the_floor_woman
-        } else {
-            R.mipmap.mop_the_floor_man
-        }
-
+    val res = when (result) {
+        "老婆" -> arguments.roleImage.womanImg
+        "老公" -> arguments.roleImage.manImg
         else -> 0
     }
 
@@ -88,7 +77,7 @@ fun addDetail(index: Int, arguments: String) {
                     end.linkTo(parent.end)
                 }
                 .padding(top = 20.dp),
-            text = "刮一刮看谁$arguments",
+            text = "刮一刮看谁${arguments.name}",
             fontSize = 30.sp,
             color = Color.Black
         )
